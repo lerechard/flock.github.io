@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Proof Submission</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-96">
+    <h2 class="text-xl font-bold mb-4 text-center">Send proof of used up PLA to unlock new filament</h2>
+    
+    <input type="file" id="imageInput" accept="image/*" class="mb-4 w-full border border-gray-300 p-2 rounded" />
+    
+    <select id="dropdown" class="mb-4 w-full border border-gray-300 p-2 rounded">
+      <option value="">Select amount (0-5)</option>
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+
+    <button id="submitBtn" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 hidden">
+      Submit Proof
+    </button>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const dropdown = document.getElementById("dropdown");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function checkInputs() {
+      if (imageInput.files.length > 0 || dropdown.value !== "") {
+        submitBtn.classList.remove("hidden");
+      }
+    }
+
+    imageInput.addEventListener("change", checkInputs);
+    dropdown.addEventListener("change", checkInputs);
+
+    submitBtn.addEventListener("click", async () => {
+      const webhookUrl = "https://discord.com/api/webhooks/1245104729307218032/ihYdqXOBy8IARsFneHvYw1_5WwzMvzdFkeAJSR57sdVQxMmIe9mDsVSHmFQrL6z6KPRd";
+
+      const payload = {
+        content: "<@410862563564322826> unlock the filament locker please https://cdn.discordapp.com/attachments/1245104694859403325/1359394748233814148/IMG_2718.png?ex=67f75284&is=67f60104&hm=eb673605d569ebc70ab81b018ab43c26692428c6a686e92c1b35e2a319f276b7& "
+      };
+
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      alert("Submitted, check discord");
+    });
+  </script>
+</body>
+</html>
